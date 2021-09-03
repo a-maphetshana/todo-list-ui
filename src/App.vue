@@ -1,28 +1,46 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="container">
+      <div class="app-content">
+        <the-nav class="has-text-centered" />
+        <router-view />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TheNav from './components/TheNav'
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+  components: { TheNav }
 }
 </script>
 
-<style>
+<style lang="scss">
+ @import "assets/styles/app";
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: $theme--color-secondary;
+   background: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  padding: 0 $theme--spacing-s;
+}
+
+.app-content {
+  background: $grey-lightest;
+  padding: $theme--spacing-m;
+  padding-top: 0;
+  border-radius: 5px;
+  box-shadow: 0 0 30px -5px $theme--color-secondary;
+  margin: $theme--spacing-m auto;
+  min-height: 300px;
+
 }
 </style>
