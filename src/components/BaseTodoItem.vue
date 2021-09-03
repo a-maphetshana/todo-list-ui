@@ -13,8 +13,11 @@
       </slot>
     </div>
     <div class="BaseTodoItem__content">
-      <slot name="name">
+      <slot name="name" >
         {{ item.name }}
+      </slot>
+      <slot name="date">
+        {{ item.date }}
       </slot>
     </div>
     <div class="BaseTodoItem__actions">

@@ -1,15 +1,12 @@
 <template>
-  <base-todo-item
-    class="TodoItem"
-    :item="item"
-  >
+  <base-todo-item class="TodoItem" :item="item">
     <template #checkbox>
       <input
         v-model="completedLocal"
         type="checkbox"
         class="checkbox"
         data-testid="completeCheckbox"
-      >
+      />
     </template>
     <template #name>
       <div
@@ -30,7 +27,18 @@
         @keyup.enter="saveEdit"
         @blur="saveEdit"
         @keyup.esc="stopEdit"
+      />
+    </template>
+    <template #date>
+      <div
+        v-if="!isEditing"
+        class="task-date"
+        data-testid="contentEditTrigger"
+        @dblclick="enableEdit"
       >
+        {{ dateLocal }}
+      </div>
+      <div v-else></div>
     </template>
     <template #actions>
       <button
@@ -48,13 +56,13 @@
 </template>
 
 <script>
-import BaseTodoItem from '@/components/BaseTodoItem'
+import BaseTodoItem from "@/components/BaseTodoItem";
 
 /**
  * @module TodoItem
  */
 export default {
-  name: 'TodoItem',
+  name: "TodoItem",
   components: { BaseTodoItem },
   props: {
     /**
@@ -62,32 +70,39 @@ export default {
      */
     item: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       isEditing: false,
-      contentLocal: ''
-    }
+      contentLocal: "",
+    };
   },
   computed: {
     completedLocal: {
       /**
        * Transforms isCompleted
        */
-      get () {
-        return this.item.isCompleted
+      get() {
+        return this.item.isCompleted;
       },
       /**
        * Converts isCompleted
        * Emits the entire changed item
        * @param {Boolean} value
        */
-      set (value) {
+      set(value) {
         this.emitChange({
-          isCompleted: !!value
-        })
+          isCompleted: !!value,
+        });
+      },
+    },
+    dateLocal: {
+      get(){
+         var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+         var localDate = new Date(this.item.date);
+        return `${localDate.toLocaleDateString("en-ZA", options)} ${localDate.toLocaleTimeString()}`;
       }
     }
   },
@@ -95,58 +110,59 @@ export default {
     /**
      * Deletes a todo item
      */
-    deleteItem () {
+    deleteItem() {
       this.emitChange({
-        isDeleted: true
-      })
+        isDeleted: true,
+      });
     },
     /**
      * Emits the changes to the TODO item up to the parent.
      * @param {Object} updatedItem - the todo item
      */
-    emitChange (updatedItem) {
-      this.$emit('change', {
+    emitChange(updatedItem) {
+      this.$emit("change", {
         ...this.item,
-        ...updatedItem
-      })
+        ...updatedItem,
+      });
     },
     /**
      * Starts the editing of a todo item.
      * Focuses the input item immediately
      * @return {Promise<void>}
      */
-    async enableEdit () {
-      this.contentLocal = this.item.name
-      this.isEditing = true
-      await this.$nextTick()
-      this.$refs.editInput.focus()
+    async enableEdit() {
+      this.contentLocal = this.item.name;
+      this.isEditing = true;
+      await this.$nextTick();
+      this.$refs.editInput.focus();
     },
     /**
      * Saves the editing changes.
      * If no name is provided, just closes
      */
-    saveEdit () {
+    saveEdit() {
       if (this.contentLocal) {
         this.emitChange({
-          name: this.contentLocal
-        })
+          name: this.contentLocal,
+        });
       }
-      this.stopEdit()
+      this.stopEdit();
     },
     /**
      * Stops the editing, without saving anything
      */
-    stopEdit () {
-      this.isEditing = false
-      this.contentLocal = ''
-    }
-  }
-}
+    stopEdit() {
+      this.isEditing = false;
+      this.contentLocal = "";
+    },
+  },
+};
 </script>
 
 <style lang='scss' scoped>
 @import "../assets/styles/app";
 .TodoItem {
+  font-weight: bold;
   &:hover {
     .TodoItem__delete {
       opacity: 1;
@@ -167,6 +183,12 @@ export default {
     &:active {
       cursor: grabbing;
     }
+  }
+
+  .task-date {
+    font-size: 12px;
+    font-weight: bold;
+    font-style: italic;
   }
 }
 </style>

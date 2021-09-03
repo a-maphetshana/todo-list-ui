@@ -1,6 +1,6 @@
 <template>
   <div class="ToDo">
-    <div class="title is-4 has-text-centered">TODO tasks</div>
+    <div class="title is-4 has-text-centered">TODO tasks</div>    
     <div class="ToDo__addNew">
       <input
         v-model.trim="newTodoContent"
@@ -10,6 +10,24 @@
         placeholder="Your new task"
         @keyup.enter.prevent="saveTodo"
       />
+    </div>
+
+<div class="ToDoFIlter is-4 has-text-right">
+      Show:
+      <select style="width: 100px">
+        <option>All</option>
+        <option>Pending</option>
+        <option>Completed</option>
+      </select>
+      Sort by:
+      <select style="width: 100px">
+        <option>Date asc</option>
+        <option>Date desc</option>
+        <option>Description asc</option>
+        <option>Description desc</option>
+        <option>Status asc</option>
+        <option>Status desc</option>
+      </select>
     </div>
     <div class="ToDo__items">
       <draggable
@@ -100,5 +118,9 @@ export default {
   &__items {
     margin-top: $theme--spacing-l;
   }
+}
+
+.ToDoFIlter {
+ margin-top: $theme--spacing-l;
 }
 </style>

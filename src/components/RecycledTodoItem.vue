@@ -1,8 +1,8 @@
 <template>
-  <base-todo-item
-    class="RecycledTodoItem"
-    :item="item"
-  >
+  <base-todo-item class="RecycledTodoItem" :item="item">
+    <template #date>
+      <div></div>
+    </template>
     <template #actions>
       <div class="buttons">
         <button
@@ -31,21 +31,21 @@
 </template>
 
 <script>
-import BaseTodoItem from '@/components/BaseTodoItem'
+import BaseTodoItem from "@/components/BaseTodoItem";
 
 /**
  * @module RecycledTodoItem
  */
 export default {
-  name: 'RecycledTodoItem',
+  name: "RecycledTodoItem",
   components: { BaseTodoItem },
   props: {
     item: {
       type: Object,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
